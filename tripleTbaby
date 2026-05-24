@@ -1,0 +1,26 @@
+import time
+from pygame import mixer
+from pynput import keyboard
+
+volume = 0.1
+duree = 3
+
+mixer.init()
+son = mixer.Sound("tung.mp3")
+
+buffer = ""
+
+def on_press(key):
+    global buffer
+    try:
+        buffer += key.char
+        if "tung" in buffer:
+            son.play()
+            time.sleep(duree)
+            son.stop()
+            buffer = ""
+    except AttributeError:
+        pass
+
+with keyboard.Listener(on_press=on_press) as listener:
+    listener.join()
